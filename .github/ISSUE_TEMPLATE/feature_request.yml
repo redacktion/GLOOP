@@ -1,0 +1,124 @@
+name: Feature request
+description: Suggest an idea for Gloop
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees: "redacktion"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement to Gloop. Use this form for ideas that affect the core Gloop contract, skills, harness adapters, installer, examples, or documentation.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Is your feature request related to a problem?
+      description: Describe the problem or workflow friction this feature would solve.
+      placeholder: "Example: I want to use Gloop in another agent harness, but there is no adapter for its command or skill format."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the solution you'd like
+      description: Explain what you want Gloop to do differently.
+      placeholder: "Example: Add an adapter under adapters/<harness>/ with install support in scripts/install.sh."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Feature area
+      description: Which part of Gloop would this affect?
+      options:
+        - Core Gloop contract
+        - Skill behavior
+        - Codex adapter
+        - Claude Code adapter
+        - Factory/Droid adapter
+        - Antigravity/Gemini adapter
+        - Cursor adapter
+        - Hermes adapter
+        - Augment/Auggie adapter
+        - Copilot/VS Code adapter
+        - Windsurf/Cascade adapter
+        - Installer
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: change_type
+    attributes:
+      label: Type of change
+      options:
+        - New harness adapter
+        - Existing adapter improvement
+        - Core workflow behavior
+        - Installer or distribution
+        - Documentation or example
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: gloop_contract
+    attributes:
+      label: Example Gloop contract
+      description: If useful, sketch the Gloop contract this feature should support.
+      value: |
+        Goal:
+
+        Done gate:
+
+        Loop objective:
+
+        Verification:
+
+        Loop mode:
+
+        Stop rule:
+
+        Safety boundaries:
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+      description: List any other approaches, adapters, prompts, scripts, or workflows you considered.
+      placeholder: "Example: Use a generic AGENTS.md instruction instead of a native harness-specific adapter."
+    validations:
+      required: false
+
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility and install impact
+      description: Note any affected harnesses, install paths, existing adapters, or migration concerns.
+      placeholder: "Example: This would add ~/.example-agent/skills/gloop and should not change existing Cursor or Claude installs."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Scope and safety
+      options:
+        - label: This request does not require patching official app binaries, vendor bundles, or upstream source distributions.
+          required: true
+        - label: This request can be verified with a clear done gate, test, install check, or documentation review.
+          required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add screenshots, links, prior art, example commands, or other context here.
+      placeholder: "Add any other context about the feature request here."
+    validations:
+      required: false
