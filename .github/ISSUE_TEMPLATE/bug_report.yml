@@ -1,0 +1,141 @@
+name: Bug report
+description: Report broken Gloop behavior, packaging, install, or adapter output
+title: "[Bug]: "
+labels: ["bug"]
+assignees: "redacktion"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for reproducible problems in the Gloop core contract, skills, harness adapters, installer, examples, or documentation.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What broke?
+      description: Give a clear, concise summary of the bug.
+      placeholder: "Example: The Cursor adapter installs, but Cursor does not discover the Gloop skill."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      description: Which part of Gloop appears to be affected?
+      options:
+        - Core Gloop contract
+        - Skill behavior
+        - Codex adapter
+        - Claude Code adapter
+        - Factory/Droid adapter
+        - Antigravity/Gemini adapter
+        - Cursor adapter
+        - Hermes adapter
+        - Augment/Auggie adapter
+        - Copilot/VS Code adapter
+        - Windsurf/Cascade adapter
+        - Installer
+        - Documentation
+        - GitHub templates
+        - Unknown
+    validations:
+      required: true
+
+  - type: input
+    id: harness_version
+    attributes:
+      label: Harness and version
+      description: If this is adapter-specific, name the harness and version.
+      placeholder: "Example: Cursor 1.2.3, Claude Code 0.0.0, Codex CLI 0.0.0"
+    validations:
+      required: false
+
+  - type: textarea
+    id: install_context
+    attributes:
+      label: Install context
+      description: Describe how Gloop was installed or imported.
+      placeholder: "Example: Ran ./scripts/install.sh --target cursor --project /path/to/repo"
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide the smallest sequence that reproduces the issue.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: contract
+    attributes:
+      label: Gloop contract or invocation
+      description: Paste the Gloop contract, slash command, prompt invocation, or installer command involved.
+      render: text
+      placeholder: "/gloop Goal: ... Done gate: ... Loop objective: ..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or output
+      description: Paste relevant command output, validation errors, or harness discovery logs.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Add OS, shell, repo path shape, and any relevant agent config paths.
+      value: |
+        OS:
+        Shell:
+        Gloop commit/version:
+        Install target:
+        Project-scoped install path:
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification
+      options:
+        - label: I can reproduce this with the current documented Gloop install/import path.
+          required: true
+        - label: This report does not depend on patching official app binaries, vendor bundles, or upstream source distributions.
+          required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add screenshots, links, prior art, or any other context here.
+    validations:
+      required: false
+

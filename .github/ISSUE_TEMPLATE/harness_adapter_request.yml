@@ -1,0 +1,123 @@
+name: Harness adapter request
+description: Request support for another agent, editor, CLI, or workflow harness
+title: "[Adapter]: "
+labels: ["enhancement"]
+assignees: "redacktion"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form when Gloop should support a new harness or improve an existing harness-specific import surface.
+
+  - type: input
+    id: harness
+    attributes:
+      label: Harness name
+      description: Name the agent, editor, CLI, workflow runner, or tool.
+      placeholder: "Example: Example Agent CLI"
+    validations:
+      required: true
+
+  - type: input
+    id: homepage
+    attributes:
+      label: Project or documentation URL
+      description: Link to the official docs for commands, skills, rules, workflows, or agent instructions.
+      placeholder: "https://example.com/docs/skills"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: adapter_type
+    attributes:
+      label: Import surface
+      description: What kind of adapter does this harness support?
+      options:
+        - Agent Skills / SKILL.md
+        - Slash command Markdown
+        - Rules or instructions file
+        - Workflow file
+        - Subagent or Droid file
+        - Project-scoped config
+        - User-global config
+        - Unknown
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: install_paths
+    attributes:
+      label: Known install paths
+      description: List user-global and project-scoped paths if known.
+      value: |
+        User-global:
+        Project-scoped:
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected Gloop behavior
+      description: Describe how users should invoke or discover Gloop in this harness.
+      placeholder: "Example: Users should be able to invoke /gloop or discover the gloop skill from the harness skill picker."
+    validations:
+      required: true
+
+  - type: textarea
+    id: contract
+    attributes:
+      label: Example Gloop contract
+      description: Include a representative contract this adapter should support.
+      value: |
+        Goal:
+
+        Done gate:
+
+        Loop objective:
+
+        Verification:
+
+        Loop mode:
+
+        Stop rule:
+
+        Safety boundaries:
+    validations:
+      required: false
+
+  - type: textarea
+    id: prior_art
+    attributes:
+      label: Prior art or examples
+      description: Link to comparable adapters, docs, snippets, or working examples.
+    validations:
+      required: false
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification plan
+      description: How can this adapter be tested after implementation?
+      placeholder: "Example: Install into a temp project, run the harness discovery command, and confirm /gloop appears."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Scope and safety
+      options:
+        - label: This adapter can be implemented through documented import/configuration files.
+          required: true
+        - label: This adapter does not require patching official app binaries, vendor bundles, or upstream source distributions.
+          required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add screenshots, links, examples, or other context here.
+    validations:
+      required: false
