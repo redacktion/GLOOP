@@ -1,0 +1,13 @@
+---
+description: Use Gloop when a request needs a verified goal followed by bounded improvement iterations.
+alwaysApply: false
+---
+
+# Gloop
+
+When the user invokes or asks for Gloop, load the workflow from `core/GLOOP.md` or the installed `gloop` skill.
+
+Do not treat a bare mention as permission to run an unbounded loop. If the request does not include a usable Goal, Done gate, Loop objective, Verification, Loop mode, and Stop rule, show the Gloop design prompt and wait.
+
+For a valid contract, finish the goal and prove the done gate before starting loop iterations. Each loop iteration must make one defensible improvement, run verification, and stop on the first stop rule hit.
+

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gloop.local/schema/gloop-contract.json",
+  "title": "Gloop Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "goal",
+    "done_gate",
+    "loop_objective",
+    "verification",
+    "loop_mode",
+    "stop_rule"
+  ],
+  "properties": {
+    "goal": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The concrete deliverable to build, fix, research, or change."
+    },
+    "done_gate": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The proof that the goal phase is complete."
+    },
+    "loop_objective": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The repeated improvement target after the done gate passes."
+    },
+    "verification": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The command or observable check to run after the goal and each loop iteration."
+    },
+    "loop_mode": {
+      "oneOf": [
+        {
+          "type": "string",
+          "const": "ask"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "max_iterations"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "auto"
+            },
+            "max_iterations": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "stop_file"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "auto_until_stop_file"
+            },
+            "stop_file": {
+              "type": "string",
+              "minLength": 1,
+              "default": ".gloop/STOP"
+            }
+          }
+        }
+      ]
+    },
+    "stop_rule": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The condition that ends the loop."
+    },
+    "safety_boundaries": {
+      "type": "string",
+      "description": "Files, commands, services, costs, credentials, and behavior that are off limits."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional context the agent should preserve across iterations."
+    }
+  }
+}
+

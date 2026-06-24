@@ -1,0 +1,64 @@
+{
+  "name": "gloop",
+  "version": "1.0.0",
+  "pronunciation": "gloop, rhyming with scoop",
+  "description": "A portable goal-plus-loop workflow for agent harnesses.",
+  "canonical": {
+    "skill": "skills/gloop/SKILL.md",
+    "core": "core/GLOOP.md",
+    "schema": "core/contract.schema.json"
+  },
+  "adapters": {
+    "agent-skill": {
+      "source": "adapters/agent-skill/gloop",
+      "install": ["~/.agents/skills/gloop"]
+    },
+    "codex": {
+      "source": "adapters/codex",
+      "install": ["~/.agents/skills/gloop", "~/.codex/prompts/gloop.md"]
+    },
+    "claude": {
+      "source": "adapters/claude",
+      "install": ["~/.claude/commands/gloop.md", "~/.claude/skills/gloop"]
+    },
+    "factory": {
+      "source": "adapters/factory",
+      "install": ["~/.factory/skills/gloop", "~/.factory/commands/gloop.md", "~/.factory/droids/gloop-runner.md"]
+    },
+    "antigravity": {
+      "source": "adapters/antigravity",
+      "install": ["~/.gemini/config/skills/gloop", "~/.gemini/antigravity-cli/skills/gloop"],
+      "projectInstall": [".agents/skills/gloop", ".agents/workflows/gloop.md"]
+    },
+    "cursor": {
+      "source": "adapters/cursor",
+      "install": ["~/.cursor/skills/gloop", "~/.cursor/agents/gloop-verifier.md"],
+      "projectInstall": [".cursor/skills/gloop", ".cursor/rules/gloop.mdc", ".cursor/agents/gloop-verifier.md"]
+    },
+    "hermes": {
+      "source": "adapters/hermes",
+      "install": ["~/.hermes/skills/gloop"]
+    },
+    "augment": {
+      "source": "adapters/augment",
+      "install": ["~/.augment/skills/gloop"]
+    },
+    "gemini": {
+      "source": "adapters/gemini",
+      "install": ["~/.gemini/skills/gloop"]
+    },
+    "copilot": {
+      "source": "adapters/copilot",
+      "projectInstall": [".github/copilot-instructions.md", ".github/instructions/gloop.instructions.md"]
+    },
+    "windsurf": {
+      "source": "adapters/windsurf",
+      "install": ["~/.codeium/windsurf/global_workflows/gloop.md"],
+      "projectInstall": [".windsurf/workflows/gloop.md"]
+    },
+    "generic": {
+      "source": "adapters/generic",
+      "projectInstall": ["AGENTS.md"]
+    }
+  }
+}

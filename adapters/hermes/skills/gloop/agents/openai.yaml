@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gloop"
+  short_description: "Goal then iterative optimization loop"
+  default_prompt: "Use $gloop to turn a concrete goal and follow-up improvement loop into a verified workflow."

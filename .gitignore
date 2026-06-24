@@ -1,0 +1,17 @@
+.DS_Store
+
+# Generated/runtime state
+.gloop/
+*.log
+*.jsonl
+
+# Heavy Codex patch artifacts
+codex/patches/bin/codex-patched
+codex/patches/backups/
+codex/patches/state/
+codex/patches/work/
+
+# Local dependency/build output
+node_modules/
+target/
+
