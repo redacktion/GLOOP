@@ -1,6 +1,96 @@
 # Gloop
 
-Gloop (rhymes with "scoop") is a goal-plus-loop workflow for your model of choice, as long as it can ingest Markdown instructions, skills, rules, workflows, or slash-command prompts. The idea is simple: define a goal, prove the done gate, then iterate on cleanup, optimization, hardening, tests, docs, or whatever else you want looped until a stop rule fires.
+Gloop (rhymes with "scoop") is a goal-plus-loop workflow for your model of choice, as long as it can ingest Markdown instructions, skills, rules, workflows, or slash-command prompts.
+
+The idea is simple: define a goal, prove the done gate, then iterate on cleanup, optimization, hardening, tests, docs, or whatever else you want looped until a stop rule fires. While you can include this language in a Goal, by abstracting out the iteration portion, this approach provides greater control to iterative improvements and scopes iteration over a given objective.
+
+Example:
+
+```text
+Goal:
+Build a small CLI that validates a JSON file and prints a normalized copy.
+
+Done gate:
+The CLI builds, unit tests pass, and `json-normalize sample.json` prints stable formatted JSON.
+
+Loop objective:
+Improve error messages, edge-case coverage, and command help text.
+
+Verification:
+Run the test suite and a smoke invocation after every iteration.
+
+Loop mode:
+auto 3
+
+Stop rule:
+Stop after three iterations, if verification fails, or if no defensible improvement remains.
+```
+
+Execution flow:
+
+```text
+      STATE / HANDOFF             CORE WORKFLOW                EXIT PATHS
+
+                              +----------------------+
+                              |     User request     |
+                              +----------+-----------+
+                                         |
+                                         v
++----------------------+      +----------+-----------+        +----------------------+
+| Optional state files |<-----| Gloop contract       |------->| Missing contract     |
+|----------------------|      |----------------------|        |----------------------|
+| .gloop/goal.md       |      | Goal                 |        | Show the design      |
+| .gloop/loop.md       |      | Done gate            |        | prompt and stop.     |
+| .gloop/verify.sh     |      | Loop objective       |        +----------------------+
+| .gloop/notes.md      |      | Verification         |
+| .gloop/STOP          |      | Loop mode            |
++----------------------+      | Stop rule            |
+                              +----------+-----------+
+                                         |
+                                         v
+                              +----------+-----------+
+                              | Goal phase           |
+                              |----------------------|
+                              | Build, fix, research,|
+                              | or change the thing. |
+                              +----------+-----------+
+                                         |
+                                         v
+                              +----------+-----------+        +----------------------+
+                              | Done gate            |        | Gate failed          |
+                              |----------------------|        |----------------------|
+                              | Run the build, test, |--fail->| Report blocker;      |
+                              | or smoke check.      |        | do not loop.         |
+                              +----------+-----------+        +----------------------+
+                                         | pass
+                                         v
++----------------------+      +----------------------+<------ loop back -------------.
+| Baseline findings &  |      |    Loop Iteration    |        +----------------------|
+| notes                |<-----|       N times        |------->| No useful change?    |
+|----------------------|      |----------------------|        |----------------------|
+| Metrics              |      | Make one defensible  |        | Report               |
+| Decisions            |      | improvement.         |        | GLOOP_NO_ACTION.     |
+| Follow-up risks      |      +----------+-----------+        +----------------------+
++----------------------+                 |                                           |
+                                         v                                           |
+                              +----------+-----------+        +----------------------+
+                              | Verification         |        | Verification failed  |
+                              |----------------------|        |----------------------|
+                              | Run the configured   |--fail->| Report failure and   |
+                              | check every time.    |        | preserve context.    |
+                              +----------+-----------+        +----------------------+
+                                         | pass                                      |
+                                         v                                           |
+                              +----------+-----------+        +----------------------+
+                              | Stop rule            |        | Stop rule hit        |
+                              |----------------------|        |----------------------|
+                              | User stop, max iter, |--yes-->| Final report with    |
+                              | stop file, no gain.  |        | verification notes.  |
+                              +----------+-----------+        +----------------------|
+                                         |                                           |
+                                         |                                           |
+                                         '--------- loop back -----------------------^
+```
 
 This repo packages Gloop as a portable core contract plus harness-specific adapters for Codex, Claude Code, Factory/Droid, Antigravity, Cursor, Hermes, Augment/Auggie, GitHub Copilot/VS Code, Windsurf/Cascade, and generic `AGENTS.md` consumers.
 
@@ -14,6 +104,26 @@ This repo packages Gloop as a portable core contract plus harness-specific adapt
 - `scripts/install.sh` - multi-target installer.
 
 ## Install
+
+### Model/Harness-Assisted Installation
+
+Point your model or harness at this repo and ask it to install the Gloop adapter that matches its environment:
+
+```text
+Install Gloop from this repository for the current harness.
+
+Repository:
+https://github.com/redacktion/GLOOP
+
+Requirements:
+- Inspect the README and scripts/install.sh.
+- Choose the narrowest matching install target.
+- Use --project only when installing project-scoped files into the current repository.
+- Do not patch official app binaries, vendor bundles, or upstream source distributions.
+- Verify the installed files are discoverable by the harness.
+```
+
+### Manual Installation
 
 Default user-level install:
 
@@ -35,7 +145,7 @@ Install everything, including project-scoped adapters:
 
 Project-scoped files are installed conservatively. If a target file already exists and differs, the installer preserves it and writes a `.gloop-new` sibling.
 
-## Targets
+### Targets
 
 | Target | Installs |
 | --- | --- |
