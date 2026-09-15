@@ -14,3 +14,4 @@ Read `core/GLOOP.md` when present. A valid Gloop needs:
 
 If the request is missing a usable contract, ask for the missing fields. Do not start an unbounded loop. Finish the goal and prove the done gate before starting loop iterations. Run verification after each iteration and stop on the first stop rule hit.
 
+For explicitly selected contract-only/native-state use, follow the **Native-State Profile (Opt-In)** in `core/GLOOP.md`. Bind known fields to existing host tasks and receipts instead of prompting again or creating `.gloop/` state. The profile requires a finite budget and explicit safety boundaries, preserves approval stops, and grants no execution authority. If the core profile or required host state is unavailable, stop and request the missing reference rather than inventing a fallback.

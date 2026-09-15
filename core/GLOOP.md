@@ -71,3 +71,35 @@ Then give one practical example for the current context if enough information is
 - Do not treat model confidence as verification.
 - Stop and report `GLOOP_NO_ACTION` when no defensible next improvement remains.
 
+## Native-State Profile (Opt-In)
+
+Use this contract-only profile when the request or host adapter explicitly selects it and the host already owns task state, verification receipts, budgets, and approvals. It adds no runner, resume wrapper, provider routing, or storage. It does not grant permission to execute commands or change files.
+
+Bind the contract to the existing host task instead of copying it:
+
+| Contract requirement | Existing host state |
+| --- | --- |
+| Goal, done gate, loop objective | Plan/task identifiers and their acceptance criteria |
+| Verification | Check definitions and receipts tied to the current work |
+| Loop mode, finite budget, stop rule | Execution authorization, remaining iteration/time budget, and stop conditions |
+| Safety boundaries | Explicit nonempty scope and approval constraints |
+
+Resolve these bindings before starting. Reuse known fields and ask only for missing or ambiguous information, rather than displaying the full bare-invocation prompt again. An unresolved task or receipt reference is not a usable binding. A prior receipt counts only if it still verifies the current work.
+
+This profile replaces optional `.gloop/` handoff files with the host's existing task and receipt state. Do not create `.gloop/` files, duplicate contracts or counters, or a second resume mechanism. If the host cannot retain the required state, stop rather than silently falling back to a separate store.
+
+### Compatibility and Budget
+
+Select the profile in request/adapter prose, not by adding a JSON property or `loop_mode` value. The base schema remains unchanged: `safety_boundaries` is optional there, but explicit nonempty safety boundaries are required for this profile. Existing base contracts remain valid without selecting it.
+
+Require a finite host-owned budget before work, including in ask mode. For bounded auto refinement, the existing `loop_mode` object with `type: auto` and `max_iterations` can supply the iteration cap; any deadline remains in host state. A stop file or external stop control alone is not a finite budget. A cap is not authorization: default to ask before each iteration unless the operator explicitly authorizes bounded auto mode. An exhausted or zero remaining budget permits no next iteration, even though a newly declared schema `max_iterations` must be at least one.
+
+### Execution and Stops
+
+1. Before goal work or any refinement iteration, check authorization, remaining budget, and all stop rules. Complete the goal and prove the done gate before refinement. A failed gate records failure, not completion, and stops the loop.
+2. Choose at most one defensible improvement per iteration within the existing scope and loop objective.
+3. Make that improvement, run verification, and update budget consumption, results, and observed gain in the same native task/receipt. Model confidence is not evidence.
+4. Stop on failed verification, exhausted budget, no gain, no defensible action, or an operator stop. Record `GLOOP_NO_ACTION` in the native outcome when no useful action remains. An effect needing approval pauses without executing it; neither a passing gate nor auto mode bypasses approval.
+5. Preserve failure, pause, and approval evidence on handoff or resume. Resume does not silently reset the budget, widen scope, switch providers, or authorize further effects. Recheck the retained state before continuing.
+
+These are adapter requirements, not runtime enforcement supplied by this document. Before claiming host conformance, verify that an incomplete goal cannot enter refinement, failed gates retain failure, zero/exhausted budgets prevent another iteration, no-action stops are recorded, and approval-required effects pause without execution.
