@@ -107,7 +107,9 @@ This repo packages Gloop as a portable core contract plus harness-specific adapt
 
 ### Model/Harness-Assisted Installation
 
-Point your model or harness at this repo and ask it to install the Gloop adapter that matches its environment:
+To try Gloop on one task without installing anything, fill in the [portable contract](#usage) and give it to your model with the [workflow instructions](core/GLOOP.md).
+
+If you want the adapter available for future tasks, use this install prompt:
 
 ```text
 Install Gloop from this repository for the current harness.
@@ -118,7 +120,8 @@ https://github.com/redacktion/GLOOP
 Requirements:
 - Inspect the README and scripts/install.sh.
 - Choose the narrowest matching install target.
-- Use --project only when installing project-scoped files into the current repository.
+- List the destinations before installing. For example, --target cursor --project DIR writes to both the Cursor user directory and DIR/.cursor.
+- Ask before replacing existing user files or skill directories.
 - Do not patch official app binaries, vendor bundles, or upstream source distributions.
 - Verify the installed files are discoverable by the harness.
 ```
